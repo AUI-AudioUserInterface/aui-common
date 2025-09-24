@@ -1,0 +1,11 @@
+from aui_common.audio.types import PcmAudio
+from aui_common.util.textnorm import map_star_hash
+
+def test_pcm_audio():
+    pcm = PcmAudio(data=b'1234', rate=16000)
+    assert pcm.rate == 16000
+
+def test_map_star_hash():
+    text = 'Taste * und #'
+    assert 'Stern' in map_star_hash(text)
+    assert 'Raute' in map_star_hash(text)

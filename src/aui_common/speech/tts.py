@@ -1,0 +1,6 @@
+from typing import Protocol
+from aui_common.audio.types import PcmAudio
+
+class SpeechProvider(Protocol):
+    async def preload(self) -> None: ...
+    async def synth(self, text: str) -> PcmAudio: ...
