@@ -1,0 +1,6 @@
+from typing import Protocol, AsyncIterator, Optional
+from .dtmf import DtmfEvent, DtmfDigit
+
+class InputProvider(Protocol):
+    async def dtmf_events(self) -> AsyncIterator[DtmfEvent]: ...
+    async def wait_for_digit(self, timeout: Optional[float]=None) -> Optional[DtmfDigit]: ...

@@ -10,6 +10,15 @@ class CancellationToken:
     def is_cancelled(self) -> bool:
         return self._cancelled
 
+class OperationHandle:
+    def __init__(self, token: CancellationToken) -> None:
+        self._t = token
+    def cancel(self) -> None:
+        self._t.cancel()
+    @property
+    def token(self) -> CancellationToken:
+        return self._t
+
 class Debouncer:
     def __init__(self, delay: float) -> None:
         self._delay = delay
