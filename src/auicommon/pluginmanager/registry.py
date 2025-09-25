@@ -65,6 +65,10 @@ class PluginRegistry(Generic[T]):
             try:
                 if not isinstance(inst, self._contract):  # type: ignore[arg-type]
                     _log.warning("Plugin '%s' does not satisfy contract %s", name, self._contract)
+                    required = ["meta", "init", "start", "stop", "play", "stop_audio"]
+                    missing = [m for m in required if not hasattr(inst, m)]
+                    if missing:
+                        _log.warning("Adapter '%s' fehlt/fallen Methoden: %s", name, ", ".join(missing))                    
             except TypeError:
                 pass
         return inst
