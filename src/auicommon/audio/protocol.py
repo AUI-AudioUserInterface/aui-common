@@ -1,6 +1,6 @@
 from typing import Protocol, Optional
-from aui_common.audio.types import PcmAudio
-from aui_common.util.async_utils import CancellationToken
+from auicommon.audio.types import PcmAudio
+from auicommon.util.async_utils import CancellationToken
 
 class AudioSink(Protocol):
     async def play(self, audio: PcmAudio, wait: bool=False,

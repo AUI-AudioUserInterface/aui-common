@@ -1,5 +1,5 @@
-from aui_common.audio.types import PcmAudio
-from aui_common.util.textnorm import map_star_hash
+from auicommon.audio.types import PcmAudio
+from auicommon.util.textnorm import map_star_hash
 
 def test_pcm_audio():
     pcm = PcmAudio(data=b'1234', rate=16000)
