@@ -1,13 +1,35 @@
+import asyncio
 from enum import Enum
-from dataclasses import dataclass
-from typing import Optional
 
-class DtmfDigit(str, Enum):
-    D0="0"; D1="1"; D2="2"; D3="3"; D4="4"; D5="5"; D6="6"; D7="7"; D8="8"; D9="9"
-    STAR="*"; HASH="#"; A="A"; B="B"; C="C"; D="D"
+class DtmfKey(Enum):
+    KEY_0 = 0
+    KEY_1 = 1
+    KEY_2 = 2
+    KEY_3 = 3
+    KEY_4 = 4
+    KEY_5 = 5
+    KEY_6 = 6
+    KEY_7 = 7
+    KEY_8 = 8
+    KEY_9 = 9
+    KEY_STAR = 10
+    KEY_HASH = 11
 
-@dataclass
-class DtmfEvent:
-    digit: DtmfDigit
-    ts: float                 # monotonic timestamp (seconds)
-    source: Optional[str]=None  # z.B. "pc", "ari", "sip"
+class Dtmf:
+    valid_keys=set('0123456789*#')
+    
+    def __init__(self):
+        self._queue : asyncio.Queue[DtmfKey] = asyncio.Queue()
+
+    def add(self, key:DtmfKey) -> None:
+        self._queue.put_nowait(key)
+    
+    def get(self) -> DtmfKey | None:
+        try:
+            return self._queue.get_nowait()
+        except:
+            return None
+
+    def flush(self) -> None:
+        while not self._queue.empty():
+            _ = self._queue.get_nowait()
